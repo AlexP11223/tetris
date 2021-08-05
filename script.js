@@ -1,6 +1,7 @@
 	let overlay = document.querySelector('.overlay');
 	let modal = document.querySelector('.modal');
 	let speed = 0; /*скорость*/
+	const pauseBtn = document.getElementById("pause"); /*кнопка паузы*/
 	
 	modal.addEventListener('click', function (e) { /*обработчик событий при клике*/ 
 		if (e.target.classList.contains('easy')) {
@@ -312,9 +313,14 @@
 	
 	let score = 0;
 	let input = document.getElementsByTagName('input')[0]; /*обращаемся к имнпуту на старанице*/
+	let isPaused = false;
 	input.value = `Ваши очки: ${score}`;
 	
 	function move() { /*функция падения фигур*/
+		if (isPaused) {
+			return;
+		}
+
 		let moveFlag = true;
 		let coordinates = [ /*получение координат для ячеик для падения*/
 			[figureBody[0].getAttribute('posX'), figureBody[0].getAttribute('posY')],
@@ -469,5 +475,12 @@
 			}
 		}
 	})
-	
-	}
+	pauseBtn.addEventListener("click", (e) => { /*обработчик при клике на паузу*/
+		if (e.target.innerHTML === 'Пауза') {
+			e.target.innerHTML = 'Продолжить играть'
+		} else {
+			e.target.innerHTML = 'Пауза';
+		}
+		isPaused = !isPaused;
+	});
+}
